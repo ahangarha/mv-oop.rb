@@ -2,9 +2,9 @@
 
 This is an educational project to practice OOP in Ruby
 
-## Getting Started
+## Built with
 
-This project needs Ruby to be installed on your machine.
+This project is made using Ruby language.
 
 ## Author
 
@@ -23,6 +23,10 @@ Feel free to check the [issues page](../../issues/).
 ## Show your support
 
 Give a ⭐️ if you like this project!
+
+## Acknowledgement
+
+Linter config is made by Microverse.
 
 ## License
 
