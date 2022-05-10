@@ -2,6 +2,13 @@
 
 This is an educational project to practice OOP in Ruby
 
+## Setup
+
+This project at this stage doesn't require any special setup. Simply clone or
+download the project and use the classes as per your need.
+
+`git clone REPO_GIT_URL`
+
 ## Built with
 
 This project is made using Ruby language.
