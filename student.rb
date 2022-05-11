@@ -14,7 +14,7 @@ class Student < Person
 
   def classroom=(new_classroom)
     # remove student from classroom if we get a new classroom
-    @classroom.remove_student(self) unless @classroom == nil || @classroom == new_classroom
+    @classroom.remove_student(self) unless @classroom.nil? || @classroom == new_classroom
 
     @classroom = new_classroom
     @classroom.add_student(self) unless @classroom.students.include?(self)
