@@ -13,6 +13,10 @@ download the project and use the classes as per your need.
 
 This project is made using Ruby language.
 
+## Run
+
+Make sure `main.rb` has executable permisions. If so, simply run `./main.rb`.
+
 ## Author
 
 👤 **Mostafa Ahangarha**
