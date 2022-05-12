@@ -1,4 +1,51 @@
 class App
+  def initialize
+    @store = {
+      persons: [],
+    }
+  end
+
+  def create_person
+    puts "What type of person to make?"
+    options = {
+      "1": "Student",
+      "2": "Teacher"
+    }
+
+    for key, value in options do
+      puts "#{key}) #{value}"
+    end
+
+    chosen_option = "-10000"
+    until options.has_key?(chosen_option.to_sym)
+      puts "Choose a valid option: \r"
+      chosen_option = gets.chomp
+    end
+
+    puts 'Name?'
+    name = gets.chomp
+    puts 'Age?'
+    age = gets.chomp
+
+    if chosen_option == "1"
+      puts 'Has parent permission? (Y/n)'
+      permission_input = gets.chomp.downcase
+      permission = permission_input == "n" ? false : true
+
+      require './student'
+      the_person = Student.new(nil, age, name, parent_permission: permission)
+    else
+      puts 'Specialization?'
+      specialization = gets.chomp
+
+      require './teacher'
+      the_person = Teacher.new(specialization, age, name)
+    end
+    
+    @store[:persons] << the_person
+    
+    home()
+  end
 
   def home
     puts "Choose an option by entering its number:"
@@ -24,9 +71,11 @@ class App
 
     puts "Ok! You want to #{options[chosen_option.to_sym].downcase}"
     case chosen_option
-      when "7"
-        puts "See you soon. Bye! :)"
-        exit()
+    when "3"
+      create_person()
+    when "7"
+      puts "See you soon. Bye! :)"
+      exit()
     end
   end
   def run
