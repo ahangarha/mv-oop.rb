@@ -6,6 +6,17 @@ class App
     }
   end
 
+  def list_all_books
+    if @store[:books].length.zero?
+      puts 'There is no book!'
+    else
+      puts(@store[:books].map { |b| "Title: \"#{b.title}\", Author: \"#{p.author}\""})
+    end
+
+    puts
+    home()
+  end
+
   def list_all_people
     puts(@store[:persons].map { |p| "[#{p.class}] - id: #{p.id} | #{p.name} | #{p.age} years old"})
 
@@ -95,6 +106,8 @@ class App
 
     puts "Ok! You want to #{options[chosen_option.to_sym].downcase}"
     case chosen_option
+    when "1"
+      list_all_books()
     when "2"
       list_all_people()
     when "3"
