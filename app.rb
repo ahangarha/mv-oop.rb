@@ -2,6 +2,7 @@ class App
   def initialize
     @store = {
       persons: [],
+      books: [],
     }
   end
 
@@ -53,6 +54,23 @@ class App
     home()
   end
 
+  def create_book
+    puts "Please add details of the book"
+
+    puts 'Book Title?'
+    title = gets.chomp
+    puts 'Author\'s name?'
+    author = gets.chomp
+
+    require './book'
+
+    the_book = Book.new(title, author)
+
+    @store[:books] << the_book
+    
+    home()
+  end
+
   def home
     puts "Choose an option by entering its number:"
     options = {
@@ -81,6 +99,8 @@ class App
       list_all_people()
     when "3"
       create_person()
+    when "4"
+      create_book()
     when "7"
       puts "See you soon. Bye! :)"
       exit()
