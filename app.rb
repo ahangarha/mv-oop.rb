@@ -5,6 +5,12 @@ class App
     }
   end
 
+  def list_all_people
+    puts(@store[:persons].map { |p| "[#{p.class}] - id: #{p.id} | #{p.name} | #{p.age} years old"})
+
+    home()
+  end
+
   def create_person
     puts "What type of person to make?"
     options = {
@@ -71,6 +77,8 @@ class App
 
     puts "Ok! You want to #{options[chosen_option.to_sym].downcase}"
     case chosen_option
+    when "2"
+      list_all_people()
     when "3"
       create_person()
     when "7"
