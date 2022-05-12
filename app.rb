@@ -13,9 +13,6 @@ class App
     else
       puts(@store[:books].map { |b| "Title: \"#{b.title}\", Author: \"#{b.author}\"" })
     end
-
-    puts
-    home
   end
 
   def list_all_people
@@ -24,9 +21,6 @@ class App
     else
       puts(@store[:persons].map { |p| "[#{p.class}] - id: #{p.id} | #{p.name} | #{p.age} years old" })
     end
-
-    puts
-    home
   end
 
   def create_person
@@ -66,9 +60,6 @@ class App
 
     @store[:persons] << the_person
     puts 'Saved.'
-
-    puts
-    home
   end
 
   def create_book
@@ -84,9 +75,6 @@ class App
 
     @store[:books] << the_book
     puts 'Saved.'
-
-    puts
-    home
   end
 
   def create_a_rental
@@ -110,9 +98,6 @@ class App
       new_rental = Rental.new(date, chosen_person, chosen_book)
       @store[:rentals] << new_rental
     end
-
-    puts
-    home
   end
 
   def list_rental_by_person_id
@@ -129,54 +114,53 @@ class App
       rentals = person.rentals
       rentals.each { |r| puts "Data: #{r.date} - Book: \"#{r.book.title}\" by \"#{r.book.author}\"" }
     end
-
-    puts
-    home
   end
 
   def home
-    puts 'Here is the task list:'
-    options = {
-      '1': 'List all books',
-      '2': 'List all people',
-      '3': 'Create a person',
-      '4': 'Create a book',
-      '5': 'Create a rental',
-      '6': 'List all rentals for a given person id',
-      '7': 'Exit'
-    }
+    loop do
+      puts "\nHere is the task list:"
+      options = {
+        '1': 'List all books',
+        '2': 'List all people',
+        '3': 'Create a person',
+        '4': 'Create a book',
+        '5': 'Create a rental',
+        '6': 'List all rentals for a given person id',
+        '7': 'Exit'
+      }
 
-    options.each { |key, value| puts "#{key}) #{value}" }
+      options.each { |key, value| puts "#{key}) #{value}" }
 
-    chosen_option = '-10000'
-    until options.key?(chosen_option.to_sym)
-      print 'Enter the number of the task: '
-      chosen_option = gets.chomp
-    end
+      chosen_option = '-10000'
+      until options.key?(chosen_option.to_sym)
+        print 'Enter the number of the task: '
+        chosen_option = gets.chomp
+      end
 
-    puts "Ok! You want to #{options[chosen_option.to_sym].downcase}.\n\n"
+      puts "Ok! You want to #{options[chosen_option.to_sym].downcase}.\n\n"
 
-    case chosen_option
-    when '1'
-      list_all_books
-    when '2'
-      list_all_people
-    when '3'
-      create_person
-    when '4'
-      create_book
-    when '5'
-      create_a_rental
-    when '6'
-      list_rental_by_person_id
-    when '7'
-      puts 'See you soon. Bye! :)'
-      exit
+      case chosen_option
+      when '1'
+        list_all_books
+      when '2'
+        list_all_people
+      when '3'
+        create_person
+      when '4'
+        create_book
+      when '5'
+        create_a_rental
+      when '6'
+        list_rental_by_person_id
+      when '7'
+        puts 'See you soon. Bye! :)'
+        exit
+      end
     end
   end
 
   def run
-    puts "Welcome. Tell me what should I do for you.\n\n"
+    puts "Welcome. Tell me what should I do for you.\n"
     home
   end
 end
