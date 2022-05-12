@@ -2,7 +2,8 @@ class App
   def initialize
     @store = {
       persons: [],
-      books: []
+      books: [],
+      rentals: []
     }
   end
 
@@ -88,6 +89,32 @@ class App
     home
   end
 
+  def create_a_rental
+    if @store[:books].length.zero? || @store[:persons].length.zero?
+      puts 'Please make sure you have at least one person and one book in the database'
+    else
+      puts 'Choose a book:'
+      @store[:books].each.with_index { |b, i| puts "#{i}) \"#{b.title}\" by: \"#{b.author}\"" }
+      chosen_option = gets.chomp.to_i
+      chosen_book = @store[:books][chosen_option]
+
+      puts 'Choose a person:'
+      @store[:persons].each.with_index { |p, i| puts "#{i}) [#{p.class}] Name: #{p.name}, id: #{p.id},  Age: #{p.age}" }
+      chosen_option = gets.chomp.to_i
+      chosen_person = @store[:persons][chosen_option]
+
+      puts 'Pick a date:'
+      date = gets.chomp
+
+      require './rental'
+      new_rental = Rental.new(date, chosen_person, chosen_book)
+      @store[:rentals] << new_rental
+    end
+
+    puts
+    home
+  end
+
   def home
     puts 'Here is the task list:'
     options = {
@@ -119,6 +146,8 @@ class App
       create_person
     when '4'
       create_book
+    when '5'
+      create_a_rental
     when '7'
       puts 'See you soon. Bye! :)'
       exit
