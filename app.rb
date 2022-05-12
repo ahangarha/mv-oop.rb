@@ -115,6 +115,25 @@ class App
     home
   end
 
+  def list_rental_by_person_id
+    # list persons
+    print 'Enter the id of the person: '
+    input_id = gets.chomp
+
+    person = @store[:persons].find { |p| p.id == input_id }
+
+    # list the rentals
+    if person.nil?
+      puts "Couldn't find any person with such id!"
+    else
+      rentals = person.rentals
+      rentals.each { |r| puts "Data: #{r.date} - Book: \"#{r.book.title}\" by \"#{r.book.author}\"" }
+    end
+
+    puts
+    home
+  end
+
   def home
     puts 'Here is the task list:'
     options = {
@@ -148,6 +167,8 @@ class App
       create_book
     when '5'
       create_a_rental
+    when '6'
+      list_rental_by_person_id
     when '7'
       puts 'See you soon. Bye! :)'
       exit
