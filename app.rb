@@ -93,6 +93,14 @@ class App
 
   def list_rental_by_person_id
     # list persons
+    if @store[:persons].length.zero?
+      puts 'Invalid request. No persons found!'
+      return nil
+    end
+
+    puts 'List of persons:'
+    @store[:persons].each { |p| puts "#{p.id} - #{p.name}" }
+
     print 'Enter the id of the person: '
     input_id = gets.chomp
 
@@ -102,7 +110,16 @@ class App
     if person.nil?
       puts "Couldn't find any person with such id!"
     else
-      rentals = person.rentals
+      show_rental_list(person)
+    end
+  end
+
+  def show_rental_list(person)
+    rentals = person.rentals
+    if rentals.length.zero?
+      puts "#{person.name} doesn't have any rental!"
+    else
+      puts "Rental records for #{person.name}:\n\n"
       rentals.each { |r| puts "Data: #{r.date} - Book: \"#{r.book.title}\" by \"#{r.book.author}\"" }
     end
   end
