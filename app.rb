@@ -1,3 +1,5 @@
+require './display'
+
 class App
   def initialize
     @store = {
@@ -18,19 +20,11 @@ class App
   end
 
   def list_all_books
-    if @store[:books].length.zero?
-      puts 'There is no book!'
-    else
-      puts(@store[:books].map { |b| "Title: \"#{b.title}\", Author: \"#{b.author}\"" })
-    end
+    BooksDisplay.new(@store[:books]).list
   end
 
   def list_all_people
-    if @store[:persons].length.zero?
-      puts 'There is no people!'
-    else
-      puts(@store[:persons].map { |p| "[#{p.class}] - id: #{p.id} | #{p.name} | #{p.age} years old" })
-    end
+    PersonsDisplay.new(@store[:persons]).list
   end
 
   def create_person
@@ -116,12 +110,7 @@ class App
 
   def show_rental_list(person)
     rentals = person.rentals
-    if rentals.length.zero?
-      puts "#{person.name} doesn't have any rental!"
-    else
-      puts "Rental records for #{person.name}:\n\n"
-      rentals.each { |r| puts "Data: #{r.date} - Book: \"#{r.book.title}\" by \"#{r.book.author}\"" }
-    end
+    RentalsDisplay.new(rentals).list
   end
 
   def home
