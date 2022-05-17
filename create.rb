@@ -3,13 +3,11 @@ class Create
     @items = items
     raise NotImplementedError
   end
-
 end
 
 class CreateBook < Create
   def create(title, author)
     require './book'
-    the_book = Book.new(title, author)
-    the_book
+    Book.new(title, author)
   end
 end

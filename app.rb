@@ -35,7 +35,6 @@ class App
     }
 
     chosen_option = choose_from(options)
-    
     name = get_input('Name:')
     age = get_input('Age:')
 
@@ -50,7 +49,7 @@ class App
     title = get_input('Title:')
     author = get_input('Author:')
     require './create'
-    @store[:books] << CreateBook.new().create(title, author)
+    @store[:books] << CreateBook.new.create(title, author)
     puts 'Saved.'
   end
 
@@ -131,8 +130,8 @@ class App
 
   private
 
-  def get_input (msg)
-    print msg + ' '
+  def get_input(msg)
+    print "#{msg} "
     gets.chomp
   end
 
@@ -140,9 +139,7 @@ class App
     options.each { |key, value| puts "#{key}) #{value}" }
 
     chosen_option = '-10000'
-    until options.key?(chosen_option.to_sym)
-      chosen_option = get_input('Your choice:')
-    end
+    chosen_option = get_input('Your choice:') until options.key?(chosen_option.to_sym)
 
     chosen_option
   end
