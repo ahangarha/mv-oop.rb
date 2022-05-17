@@ -141,16 +141,14 @@ class App
 
     chosen_option = '-10000'
     until options.key?(chosen_option.to_sym)
-      print 'Your choice: '
-      chosen_option = gets.chomp
+      chosen_option = get_input('Your choice:')
     end
 
     chosen_option
   end
 
   def create_student(name, age)
-    print 'Has parent permission? (Y/n) '
-    permission_input = gets.chomp.downcase
+    permission_input = get_input('Has parent permission? (Y/n)').downcase
     permission = permission_input != 'n'
 
     require './student'
@@ -158,8 +156,7 @@ class App
   end
 
   def create_teacher(name, age)
-    print 'Specialization: '
-    specialization = gets.chomp
+    specialization = get_input('Specialization:')
 
     require './teacher'
     Teacher.new(specialization, age, name)
