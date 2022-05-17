@@ -1,34 +1,38 @@
 class App_Interface
-  def initialize
-    #
+  def initialize(context)
+    @context = context
   end
 
   def run
     loop do
-      get_input
+      continue = get_input
+      break unless continue
     end
   end
 
-  def get_input(context)
+  def get_input()
     raise NotImplementedError
   end
 end
 
 class Add_person_app < App_Interface
-
+end
+class Show_All_Books < App_Interface
+  def get_input()
+    # display all books
+    false
+  end
 
 class Home_App < App_Interface
-  def run
-    
-  end
 
   def get_input
     #show home menu
     if user_input = 1
+      Show_All_Books.new().run
 
   end
 end
 
 # in main.rb
-app = new New_App.new(contexts)
-app.run
+home_app = Home_App.new(contexts)
+home_app.run
