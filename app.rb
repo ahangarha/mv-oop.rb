@@ -47,30 +47,7 @@ class App
   end
 
   def list_rental_by_person_id
-    # list persons
-    if @store[:persons].length.zero?
-      puts 'Invalid request. No persons found!'
-      return nil
-    end
-
-    puts 'List of persons:'
-    @store[:persons].each { |p| puts "#{p.id} - #{p.name}" }
-
-    input_id = get_input('Enter the id of the person:')
-
-    person = @store[:persons].find { |p| p.id == input_id }
-
-    # list the rentals
-    if person.nil?
-      puts "Couldn't find any person with such id!"
-    else
-      show_rental_list(person)
-    end
-  end
-
-  def show_rental_list(person)
-    rentals = person.rentals
-    RentalsDisplay.new(rentals).list
+    ListRentalsByPersonId.new(@store[:persons]).list
   end
 
   def home

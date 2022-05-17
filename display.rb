@@ -38,3 +38,33 @@ class RentalsDisplay < Display
     end
   end
 end
+
+class ListRentalsByPersonId < Display
+ def list
+  # list persons
+  if items.length.zero?
+    puts 'Invalid request. No persons found!'
+    return nil
+  end
+
+  puts 'List of persons:'
+  items.each { |p| puts "#{p.id} - #{p.name}" }
+
+  print 'Enter the id of the person: '
+  input_id = gets.chomp
+
+  person = items.find { |p| p.id == input_id }
+
+  # list the rentals
+  if person.nil?
+    puts "Couldn't find any person with such id!"
+  else
+    show_rental_list(person)
+  end
+
+  def show_rental_list(person)
+    rentals = person.rentals
+    RentalsDisplay.new(rentals).list
+  end
+ end
+end
