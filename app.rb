@@ -35,11 +35,9 @@ class App
     }
 
     chosen_option = choose_from(options)
-
-    print 'Name: '
-    name = gets.chomp
-    print 'Age: '
-    age = gets.chomp
+    
+    name = getInput('Name:')
+    age = getInput('Age:')
 
     the_person = chosen_option == '1' ? create_student(name, age) : create_teacher(name, age)
 
@@ -49,16 +47,10 @@ class App
 
   def create_book
     puts 'Please add details of the book'
-
-    print 'Title: '
-    title = gets.chomp
-    print 'Author: '
-    author = gets.chomp
-
-    require './book'
-    the_book = Book.new(title, author)
-
-    @store[:books] << the_book
+    title = getInput('Title:')
+    author = getInput('Author:')
+    require './create'
+    @store[:books] << CreateBook.new().create(title, author)
     puts 'Saved.'
   end
 
@@ -76,8 +68,7 @@ class App
       chosen_option = gets.chomp.to_i
       chosen_person = @store[:persons][chosen_option]
 
-      puts 'Pick a date:'
-      date = gets.chomp
+      date = getInput('Pick a date:')
 
       require './rental'
       new_rental = Rental.new(date, chosen_person, chosen_book)
@@ -95,8 +86,7 @@ class App
     puts 'List of persons:'
     @store[:persons].each { |p| puts "#{p.id} - #{p.name}" }
 
-    print 'Enter the id of the person: '
-    input_id = gets.chomp
+    input_id = getInput('Enter the id of the person:')
 
     person = @store[:persons].find { |p| p.id == input_id }
 
@@ -140,6 +130,11 @@ class App
   end
 
   private
+
+  def getInput (msg)
+    print msg + ' '
+    gets.chomp
+  end
 
   def choose_from(options)
     options.each { |key, value| puts "#{key}) #{value}" }
