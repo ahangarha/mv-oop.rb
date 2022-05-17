@@ -1,4 +1,5 @@
 require './display'
+require './create'
 
 class App
   def initialize
@@ -28,28 +29,12 @@ class App
   end
 
   def create_person
-    puts 'What type of person to make?'
-    options = {
-      '1': 'Student',
-      '2': 'Teacher'
-    }
-
-    chosen_option = choose_from(options)
-    name = get_input('Name:')
-    age = get_input('Age:')
-
-    the_person = chosen_option == '1' ? create_student(name, age) : create_teacher(name, age)
-
-    @store[:persons] << the_person
+    @store[:persons] << CreatePerson.new.create
     puts 'Saved.'
   end
 
   def create_book
-    puts 'Please add details of the book'
-    title = get_input('Title:')
-    author = get_input('Author:')
-    require './create'
-    @store[:books] << CreateBook.new.create(title, author)
+    @store[:books] << CreateBook.new.create
     puts 'Saved.'
   end
 
@@ -57,21 +42,7 @@ class App
     if @store[:books].length.zero? || @store[:persons].length.zero?
       puts 'Please make sure you have at least one person and one book in the database'
     else
-      puts 'Choose a book:'
-      @store[:books].each.with_index { |b, i| puts "#{i}) \"#{b.title}\" by: \"#{b.author}\"" }
-      chosen_option = gets.chomp.to_i
-      chosen_book = @store[:books][chosen_option]
-
-      puts 'Choose a person:'
-      @store[:persons].each.with_index { |p, i| puts "#{i}) [#{p.class}] Name: #{p.name}, id: #{p.id},  Age: #{p.age}" }
-      chosen_option = gets.chomp.to_i
-      chosen_person = @store[:persons][chosen_option]
-
-      date = get_input('Pick a date:')
-
-      require './rental'
-      new_rental = Rental.new(date, chosen_person, chosen_book)
-      @store[:rentals] << new_rental
+      @store[:rentals] << CreateRental.new.create(@store[:persons], @store[:books])
     end
   end
 
@@ -142,20 +113,5 @@ class App
     chosen_option = get_input('Your choice:') until options.key?(chosen_option.to_sym)
 
     chosen_option
-  end
-
-  def create_student(name, age)
-    permission_input = get_input('Has parent permission? (Y/n)').downcase
-    permission = permission_input != 'n'
-
-    require './student'
-    Student.new(nil, age, name, parent_permission: permission)
-  end
-
-  def create_teacher(name, age)
-    specialization = get_input('Specialization:')
-
-    require './teacher'
-    Teacher.new(specialization, age, name)
   end
 end
