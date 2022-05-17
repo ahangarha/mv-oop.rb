@@ -8,15 +8,6 @@ class Create
     print "#{msg} "
     gets.chomp
   end
-
-  def choose_from(options)
-    options.each { |key, value| puts "#{key}) #{value}" }
-
-    chosen_option = '-10000'
-    chosen_option = get_input('Your choice:') until options.key?(chosen_option.to_sym)
-
-    chosen_option
-  end
 end
 
 class CreateBook < Create
@@ -38,7 +29,10 @@ class CreatePerson < Create
       '2': 'Teacher'
     }
 
-    chosen_option = choose_from(options)
+    require './menu'
+    person_menu = Menu.new(options)
+    chosen_option = person_menu.choose_from
+
     name = get_input('Name:')
     age = get_input('Age:')
 
