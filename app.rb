@@ -1,5 +1,6 @@
 require './display'
 require './create'
+require './menu'
 
 class App
   def initialize
@@ -63,7 +64,9 @@ class App
     loop do
       puts "\nHere is the task list:"
 
-      chosen_option = choose_from(options)
+      home_menu = Menu.new(options)
+      chosen_option = home_menu.choose_from
+      # chosen_option = choose_from(options)
 
       puts "Ok! You want to #{options[chosen_option.to_sym].downcase}.\n\n"
 
@@ -74,21 +77,5 @@ class App
   def run
     puts "Welcome. Tell me what should I do for you.\n"
     home
-  end
-
-  private
-
-  def get_input(msg)
-    print "#{msg} "
-    gets.chomp
-  end
-
-  def choose_from(options)
-    options.each { |key, value| puts "#{key}) #{value}" }
-
-    chosen_option = '-10000'
-    chosen_option = get_input('Your choice:') until options.key?(chosen_option.to_sym)
-
-    chosen_option
   end
 end
