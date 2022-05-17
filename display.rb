@@ -13,7 +13,7 @@ class PersonsDisplay < Display
     if @items.length.zero?
       puts('no items found')
     else
-      puts(@items.map { |p| "[BLAH] - id: #{p.id} | #{p.name} | #{p.age} years old" })
+      @items.each { |p| puts("[#{p.class}] - id: #{p.id} | #{p.name} | #{p.age} years old") }
     end
   end
 end
