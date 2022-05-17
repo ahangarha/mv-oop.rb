@@ -36,8 +36,8 @@ class App
 
     chosen_option = choose_from(options)
     
-    name = getInput('Name:')
-    age = getInput('Age:')
+    name = get_input('Name:')
+    age = get_input('Age:')
 
     the_person = chosen_option == '1' ? create_student(name, age) : create_teacher(name, age)
 
@@ -47,8 +47,8 @@ class App
 
   def create_book
     puts 'Please add details of the book'
-    title = getInput('Title:')
-    author = getInput('Author:')
+    title = get_input('Title:')
+    author = get_input('Author:')
     require './create'
     @store[:books] << CreateBook.new().create(title, author)
     puts 'Saved.'
@@ -68,7 +68,7 @@ class App
       chosen_option = gets.chomp.to_i
       chosen_person = @store[:persons][chosen_option]
 
-      date = getInput('Pick a date:')
+      date = get_input('Pick a date:')
 
       require './rental'
       new_rental = Rental.new(date, chosen_person, chosen_book)
@@ -86,7 +86,7 @@ class App
     puts 'List of persons:'
     @store[:persons].each { |p| puts "#{p.id} - #{p.name}" }
 
-    input_id = getInput('Enter the id of the person:')
+    input_id = get_input('Enter the id of the person:')
 
     person = @store[:persons].find { |p| p.id == input_id }
 
@@ -131,7 +131,7 @@ class App
 
   private
 
-  def getInput (msg)
+  def get_input (msg)
     print msg + ' '
     gets.chomp
   end
