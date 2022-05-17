@@ -17,13 +17,19 @@ This project is made using Ruby language.
 
 Make sure `main.rb` has executable permisions. If so, simply run `./main.rb`.
 
-## Author
+## Authors
 
 👤 **Mostafa Ahangarha**
 
 - GitHub: [@ahangarha](https://github.com/ahangarha)
 - Twitter: [@ahangarha](https://twitter.com/ahangarha)
 - LinkedIn: [Ahangarha](https://linkedin.com/in/ahangarha)
+
+👤 **KHALIL NASRI**
+
+- GitHub: [@NasKhalil](https://github.com/NasKhalil)
+- Twitter: [@KhalilNasri92](https://twitter.com/KhalilNasri92)
+- LinkedIn: [khalil-Nasri](https://www.linkedin.com/in/nasri-khalil-androdev/)
 
 ## 🤝 Contributing
 

@@ -1,3 +1,7 @@
+require './display'
+require './create'
+require './menu'
+
 class App
   def initialize
     @store = {
@@ -18,53 +22,20 @@ class App
   end
 
   def list_all_books
-    if @store[:books].length.zero?
-      puts 'There is no book!'
-    else
-      puts(@store[:books].map { |b| "Title: \"#{b.title}\", Author: \"#{b.author}\"" })
-    end
+    BooksDisplay.new(@store[:books]).list
   end
 
   def list_all_people
-    if @store[:persons].length.zero?
-      puts 'There is no people!'
-    else
-      puts(@store[:persons].map { |p| "[#{p.class}] - id: #{p.id} | #{p.name} | #{p.age} years old" })
-    end
+    PersonsDisplay.new(@store[:persons]).list
   end
 
   def create_person
-    puts 'What type of person to make?'
-    options = {
-      '1': 'Student',
-      '2': 'Teacher'
-    }
-
-    chosen_option = choose_from(options)
-
-    print 'Name: '
-    name = gets.chomp
-    print 'Age: '
-    age = gets.chomp
-
-    the_person = chosen_option == '1' ? create_student(name, age) : create_teacher(name, age)
-
-    @store[:persons] << the_person
+    @store[:persons] << CreatePerson.new.create
     puts 'Saved.'
   end
 
   def create_book
-    puts 'Please add details of the book'
-
-    print 'Title: '
-    title = gets.chomp
-    print 'Author: '
-    author = gets.chomp
-
-    require './book'
-    the_book = Book.new(title, author)
-
-    @store[:books] << the_book
+    @store[:books] << CreateBook.new.create
     puts 'Saved.'
   end
 
@@ -72,56 +43,12 @@ class App
     if @store[:books].length.zero? || @store[:persons].length.zero?
       puts 'Please make sure you have at least one person and one book in the database'
     else
-      puts 'Choose a book:'
-      @store[:books].each.with_index { |b, i| puts "#{i}) \"#{b.title}\" by: \"#{b.author}\"" }
-      chosen_option = gets.chomp.to_i
-      chosen_book = @store[:books][chosen_option]
-
-      puts 'Choose a person:'
-      @store[:persons].each.with_index { |p, i| puts "#{i}) [#{p.class}] Name: #{p.name}, id: #{p.id},  Age: #{p.age}" }
-      chosen_option = gets.chomp.to_i
-      chosen_person = @store[:persons][chosen_option]
-
-      puts 'Pick a date:'
-      date = gets.chomp
-
-      require './rental'
-      new_rental = Rental.new(date, chosen_person, chosen_book)
-      @store[:rentals] << new_rental
+      @store[:rentals] << CreateRental.new.create(@store[:persons], @store[:books])
     end
   end
 
   def list_rental_by_person_id
-    # list persons
-    if @store[:persons].length.zero?
-      puts 'Invalid request. No persons found!'
-      return nil
-    end
-
-    puts 'List of persons:'
-    @store[:persons].each { |p| puts "#{p.id} - #{p.name}" }
-
-    print 'Enter the id of the person: '
-    input_id = gets.chomp
-
-    person = @store[:persons].find { |p| p.id == input_id }
-
-    # list the rentals
-    if person.nil?
-      puts "Couldn't find any person with such id!"
-    else
-      show_rental_list(person)
-    end
-  end
-
-  def show_rental_list(person)
-    rentals = person.rentals
-    if rentals.length.zero?
-      puts "#{person.name} doesn't have any rental!"
-    else
-      puts "Rental records for #{person.name}:\n\n"
-      rentals.each { |r| puts "Data: #{r.date} - Book: \"#{r.book.title}\" by \"#{r.book.author}\"" }
-    end
+    ListRentalsByPersonId.new(@store[:persons]).list
   end
 
   def home
@@ -137,7 +64,9 @@ class App
     loop do
       puts "\nHere is the task list:"
 
-      chosen_option = choose_from(options)
+      home_menu = Menu.new(options)
+      chosen_option = home_menu.choose_from
+      # chosen_option = choose_from(options)
 
       puts "Ok! You want to #{options[chosen_option.to_sym].downcase}.\n\n"
 
@@ -148,36 +77,5 @@ class App
   def run
     puts "Welcome. Tell me what should I do for you.\n"
     home
-  end
-
-  private
-
-  def choose_from(options)
-    options.each { |key, value| puts "#{key}) #{value}" }
-
-    chosen_option = '-10000'
-    until options.key?(chosen_option.to_sym)
-      print 'Your choice: '
-      chosen_option = gets.chomp
-    end
-
-    chosen_option
-  end
-
-  def create_student(name, age)
-    print 'Has parent permission? (Y/n) '
-    permission_input = gets.chomp.downcase
-    permission = permission_input != 'n'
-
-    require './student'
-    Student.new(nil, age, name, parent_permission: permission)
-  end
-
-  def create_teacher(name, age)
-    print 'Specialization: '
-    specialization = gets.chomp
-
-    require './teacher'
-    Teacher.new(specialization, age, name)
   end
 end
