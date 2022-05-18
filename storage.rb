@@ -5,8 +5,8 @@ class Storage
     @title = title
   end
 
-  def save(data)
-    serialized_data = serialize(data)
+  def save(person_hash)
+    serialized_data = serialize(person_hash)
 
     filename = "#{@title}.json"
     File.write(filename, serialized_data)
