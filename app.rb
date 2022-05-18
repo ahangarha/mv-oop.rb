@@ -39,6 +39,7 @@ class App
   def load_all_data()
     require './storage'
     @store[:persons] = CreatePersons.new.create(Storage.new('persons').load)
+    @store[:books] = CreateBooks.new.create(Storage.new('books').load)
   end
 
   def create_book

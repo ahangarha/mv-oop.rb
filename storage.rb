@@ -14,6 +14,8 @@ class Storage
 
   def load
     filename = "#{@title}.json"
+    return [] unless File.exist?(filename)
+
     raw_data = File.read(filename)
     JSON.parse(raw_data)
   end

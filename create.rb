@@ -21,6 +21,21 @@ class CreateBook < Create
   end
 end
 
+class CreateBooks < Create
+  def create(books_list)
+    books_list.map { |b| create_object_of(b) }
+  end
+
+  def create_object_of(books_hash)
+    require './book'
+    Book.new(
+      books_hash['title'],
+      books_hash['author'],
+      id: books_hash['id']
+    )
+  end
+end
+
 class CreatePersons < Create
   def create(persons_list)
     persons_list.map { |p| create_object_of(p) }

@@ -5,8 +5,8 @@ class Book
   attr_accessor :title, :author
   attr_reader :id, :rentals
 
-  def initialize(title, author)
-    @id = SecureRandom.uuid
+  def initialize(title, author, id: nil)
+    @id = id.nil? ? SecureRandom.uuid : id
     @title = title
     @author = author
     @rentals = []
