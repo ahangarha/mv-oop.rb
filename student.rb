@@ -25,4 +25,15 @@ class Student < Person
       @classroom = nil
     end
   end
+
+  def to_hash
+    {
+      class: 'Student',
+      id: @id,
+      name: @name,
+      age: @age,
+      parent_permission: @parent_permission,
+      classroom: @classroom
+    }
+  end
 end
