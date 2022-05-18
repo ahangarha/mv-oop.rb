@@ -17,8 +17,10 @@ class App
       '4': 'create_book',
       '5': 'create_a_rental',
       '6': 'list_rental_by_person_id',
-      '7': 'exit'
+      '7': 'quit'
     }
+
+    load_all_data
   end
 
   def list_all_books
@@ -32,6 +34,13 @@ class App
   def create_person
     @store[:persons] << CreatePerson.new.create
     puts 'Saved.'
+  end
+
+  def load_all_data()
+    require './storage'
+    @store[:persons] = CreatePersons.new.create(Storage.new('persons').load)
+    @store[:books] = CreateBooks.new.create(Storage.new('books').load)
+    @store[:rentals] = CreateRentals.new.create(Storage.new('rentals').load, @store[:persons], @store[:books])
   end
 
   def create_book
@@ -51,6 +60,15 @@ class App
     ListRentalsByPersonId.new(@store[:persons]).list
   end
 
+  def quit
+    require './storage'
+    Storage.new('persons').save(@store[:persons])
+    Storage.new('books').save(@store[:books])
+    Storage.new('rentals').save(@store[:rentals])
+
+    exit
+  end
+
   def home
     options = {
       '1': 'List all books',
@@ -66,7 +84,6 @@ class App
 
       home_menu = Menu.new(options)
       chosen_option = home_menu.choose_from
-      # chosen_option = choose_from(options)
 
       puts "Ok! You want to #{options[chosen_option.to_sym].downcase}.\n\n"
 

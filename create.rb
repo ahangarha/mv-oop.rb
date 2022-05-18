@@ -1,6 +1,6 @@
 class Create
-  def create(*items)
-    @items = items
+  def create(data = {})
+    @data = data
     raise NotImplementedError
   end
 
@@ -18,6 +18,49 @@ class CreateBook < Create
 
     require './book'
     Book.new(title, author)
+  end
+end
+
+class CreateBooks < Create
+  def create(books_list)
+    books_list.map { |b| create_object_of(b) }
+  end
+
+  def create_object_of(books_hash)
+    require './book'
+    Book.new(
+      books_hash['title'],
+      books_hash['author'],
+      id: books_hash['id']
+    )
+  end
+end
+
+class CreatePersons < Create
+  def create(persons_list)
+    persons_list.map { |p| create_object_of(p) }
+  end
+
+  def create_object_of(person_hash)
+    case person_hash['class']
+    when 'Student'
+      require './student'
+      Student.new(
+        person_hash['classroom'],
+        person_hash['age'],
+        person_hash['name'],
+        parent_permission: person_hash['parent_permission'],
+        id: person_hash['id']
+      )
+    when 'Teacher'
+      require './teacher'
+      Teacher.new(
+        person_hash['specialization'],
+        person_hash['age'],
+        person_hash['name'],
+        id: person_hash['id']
+      )
+    end
   end
 end
 
@@ -79,5 +122,23 @@ class CreateRental < Create
 
     require './rental'
     Rental.new(date, chosen_person, chosen_book)
+  end
+end
+
+class CreateRentals < Create
+  def create(rentals_list, all_persons, all_books)
+    @all_persons = all_persons
+    @all_books = all_books
+    rentals_list.map { |r| create_object_of(r) }
+  end
+
+  def create_object_of(rental)
+    person = @all_persons.find { |p| p.id == rental['person_id'] }
+    book = @all_books.find { |b| b.id == rental['book_id'] }
+    Rental.new(
+      rental['date'],
+      person,
+      book
+    )
   end
 end
