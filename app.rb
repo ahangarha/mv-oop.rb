@@ -19,6 +19,8 @@ class App
       '6': 'list_rental_by_person_id',
       '7': 'quit'
     }
+
+    load_all_data
   end
 
   def list_all_books
@@ -32,6 +34,11 @@ class App
   def create_person
     @store[:persons] << CreatePerson.new.create
     puts 'Saved.'
+  end
+
+  def load_all_data()
+    require './storage'
+    @store[:persons] = CreatePersons.new.create(Storage.new('persons').load)
   end
 
   def create_book

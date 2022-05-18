@@ -1,6 +1,6 @@
 class Create
-  def create(*items)
-    @items = items
+  def create(data = {})
+    @data = data
     raise NotImplementedError
   end
 
@@ -18,6 +18,34 @@ class CreateBook < Create
 
     require './book'
     Book.new(title, author)
+  end
+end
+
+class CreatePersons < Create
+  def create(persons_list)
+    persons_list.map { |p| create_object_of(p) }
+  end
+
+  def create_object_of(person_hash)
+    case person_hash['class']
+    when 'Student'
+      require './student'
+      Student.new(
+        person_hash['classroom'],
+        person_hash['age'],
+        person_hash['name'],
+        parent_permission: person_hash['parent_permission'],
+        id: person_hash['id']
+      )
+    when 'Teacher'
+      require './teacher'
+      Teacher.new(
+        person_hash['specialization'],
+        person_hash['age'],
+        person_hash['name'],
+        id: person_hash['id']
+      )
+    end
   end
 end
 
