@@ -34,4 +34,20 @@ describe Rental do
       expect(rental.to_hash).to eq expected_hash
     end
   end
+
+  context 'rental gets added to the relevant person and book' do
+    student = Student.new(nil, 14, 'Ali', id: 'student_id_1')
+    book = Book.new('Book Title', 'The Author', id: 'book_id_1')
+    date = '2015-12-05'
+
+    rental = Rental.new(date, student, book)
+
+    it 'adds rental to the person' do
+      expect(student.rentals).to eq [rental]
+    end
+
+    it 'adds rental to the book' do
+      expect(book.rentals).to eq [rental]
+    end
+  end
 end
