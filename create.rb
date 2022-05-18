@@ -132,11 +132,11 @@ class CreateRentals < Create
     rentals_list.map { |r| create_object_of(r) }
   end
 
-  def create_object_of(r)
-    person = @all_persons.select { |p| p.id == r['person_id'] } 
-    book = @all_books.select { |b| b.id  == r['book_id'] }
+  def create_object_of(rental)
+    person = @all_persons.find { |p| p.id == rental['person_id'] }
+    book = @all_books.find { |b| b.id == rental['book_id'] }
     Rental.new(
-      r['date'],
+      rental['date'],
       person,
       book
     )
