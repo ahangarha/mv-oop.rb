@@ -23,6 +23,14 @@ describe Teacher do
       expect(teacher.name).to eq name
       expect(teacher.id).to eq 'abcd'
     end
+
+    it 'can use service' do
+      specialization = 'Math'
+      age = 36
+      teacher = Teacher.new(specialization, age)
+
+      expect(teacher.can_use_services?).to be true
+    end
   end
 
   context 'test :to_hash method' do
