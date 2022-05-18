@@ -40,6 +40,7 @@ class App
     require './storage'
     @store[:persons] = CreatePersons.new.create(Storage.new('persons').load)
     @store[:books] = CreateBooks.new.create(Storage.new('books').load)
+    @store[:rentals] = CreateRentals.new.create(Storage.new('rentals').load, @store[:persons], @store[:books])
   end
 
   def create_book
