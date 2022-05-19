@@ -23,5 +23,32 @@ describe Teacher do
       expect(teacher.name).to eq name
       expect(teacher.id).to eq 'abcd'
     end
+
+    it 'can use service' do
+      specialization = 'Math'
+      age = 36
+      teacher = Teacher.new(specialization, age)
+
+      expect(teacher.can_use_services?).to be true
+    end
+  end
+
+  context 'test :to_hash method' do
+    it 'generate correct hash of the object' do
+      specialization = 'Math'
+      age = 36
+      name = 'Reza'
+      id = 'blah'
+      teacher = Teacher.new(specialization, age, name, id: id)
+      expected_hash = {
+        class: 'Teacher',
+        id: id,
+        name: name,
+        age: age,
+        parent_permission: true,
+        specialization: specialization
+      }
+      expect(teacher.to_hash).to eq expected_hash
+    end
   end
 end
