@@ -38,13 +38,13 @@ class App
 
   def load_all_data()
     require './storage'
-    @store[:persons] = CreatePersons.new.create(Storage.new('persons').load)
-    @store[:books] = CreateBooks.new.create(Storage.new('books').load)
-    @store[:rentals] = CreateRentals.new.create(Storage.new('rentals').load, @store[:persons], @store[:books])
+    @store[:persons] = CreatePersons.create(Storage.new('persons').load)
+    @store[:books] = CreateBooks.create(Storage.new('books').load)
+    @store[:rentals] = CreateRentals.create(Storage.new('rentals').load, @store[:persons], @store[:books])
   end
 
   def create_book
-    @store[:books] << CreateBook.new.create
+    @store[:books] << CreateBook.create
     puts 'Saved.'
   end
 
@@ -52,7 +52,7 @@ class App
     if @store[:books].length.zero? || @store[:persons].length.zero?
       puts 'Please make sure you have at least one person and one book in the database'
     else
-      @store[:rentals] << CreateRental.new.create(@store[:persons], @store[:books])
+      @store[:rentals] << CreateRental.create(@store[:persons], @store[:books])
     end
   end
 

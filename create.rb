@@ -1,20 +1,19 @@
 class Create
-  def create(data = {})
-    @data = data
+  def self.create(data = {})
     raise NotImplementedError
   end
 
-  def get_input(msg)
+  def self.get_input(msg)
     print "#{msg} "
     gets.chomp
   end
 end
 
 class CreateBook < Create
-  def create()
+  def self.create()
     puts 'Please add details of the book'
-    title = get_input('Title:')
-    author = get_input('Author:')
+    title = Create.get_input('Title:')
+    author = Create.get_input('Author:')
 
     require './book'
     Book.new(title, author)
@@ -22,11 +21,11 @@ class CreateBook < Create
 end
 
 class CreateBooks < Create
-  def create(books_list)
-    books_list.map { |b| create_object_of(b) }
+  def self.create(books_list)
+    books_list.map { |b| CreateBooks.create_object_of(b) }
   end
 
-  def create_object_of(books_hash)
+  def self.create_object_of(books_hash)
     require './book'
     Book.new(
       books_hash['title'],
@@ -37,11 +36,11 @@ class CreateBooks < Create
 end
 
 class CreatePersons < Create
-  def create(persons_list)
-    persons_list.map { |p| create_object_of(p) }
+  def self.create(persons_list)
+    persons_list.map { |p| CreatePersons.create_object_of(p) }
   end
 
-  def create_object_of(person_hash)
+  def self.create_object_of(person_hash)
     case person_hash['class']
     when 'Student'
       require './student'
@@ -76,20 +75,20 @@ class CreatePerson < Create
     person_menu = Menu.new(options)
     chosen_option = person_menu.choose_from
 
-    name = get_input('Name:')
-    age = get_input('Age:')
+    name = Create.get_input('Name:')
+    age = Create.get_input('Age:')
 
     if chosen_option == '1'
-      CreateStudent.new.create(name, age)
+      CreateStudent.create(name, age)
     else
-      CreateTeacher.new.create(name, age)
+      CreateTeacher.create(name, age)
     end
   end
 end
 
 class CreateStudent < Create
-  def create(name, age)
-    permission_input = get_input('Has parent permission? (Y/n)').downcase
+  def self.create(name, age)
+    permission_input = Create.get_input('Has parent permission? (Y/n)').downcase
     permission = permission_input != 'n'
 
     require './student'
@@ -98,8 +97,8 @@ class CreateStudent < Create
 end
 
 class CreateTeacher < Create
-  def create(name, age)
-    specialization = get_input('Specialization:')
+  def self.create(name, age)
+    specialization = Create.get_input('Specialization:')
 
     require './teacher'
     Teacher.new(specialization, age, name)
@@ -107,7 +106,7 @@ class CreateTeacher < Create
 end
 
 class CreateRental < Create
-  def create(persons, books)
+  def self.create(persons, books)
     puts 'Choose a book:'
     books.each.with_index { |b, i| puts "#{i}) \"#{b.title}\" by: \"#{b.author}\"" }
     chosen_option = gets.chomp.to_i
@@ -118,7 +117,7 @@ class CreateRental < Create
     chosen_option = gets.chomp.to_i
     chosen_person = persons[chosen_option]
 
-    date = get_input('Pick a date:')
+    date = Create.get_input('Pick a date:')
 
     require './rental'
     Rental.new(date, chosen_person, chosen_book)
@@ -126,13 +125,13 @@ class CreateRental < Create
 end
 
 class CreateRentals < Create
-  def create(rentals_list, all_persons, all_books)
+  def self.create(rentals_list, all_persons, all_books)
     @all_persons = all_persons
     @all_books = all_books
-    rentals_list.map { |r| create_object_of(r) }
+    rentals_list.map { |r| CreateRentals.create_object_of(r) }
   end
 
-  def create_object_of(rental)
+  def self.create_object_of(rental)
     person = @all_persons.find { |p| p.id == rental['person_id'] }
     book = @all_books.find { |b| b.id == rental['book_id'] }
     Rental.new(
