@@ -9,8 +9,8 @@ end
 class CreateBook < Create
   def self.create()
     puts 'Please add details of the book'
-    title = IOHandler::get_input('Title:', {pattern:/.+/, error_message:'Please enter something.'})
-    author = IOHandler::get_input('Author:', {pattern:/.+/, error_message:'Please enter something.'})
+    title = IOHandler.get_input('Title:', { pattern: /.+/, error_message: 'Please enter something.' })
+    author = IOHandler.get_input('Author:', { pattern: /.+/, error_message: 'Please enter something.' })
 
     require './book'
     Book.new(title, author)
@@ -71,10 +71,10 @@ class CreatePerson < Create
     require './menu'
     person_menu = Menu.new(options)
     chosen_option = person_menu.choose_from
-    nameValidationOptions = {pattern: /.+/, error_message: 'Minimum 1 character is needed!'}
-    name = IOHandler::get_input('Name:', nameValidationOptions)
-    ageValidationOptions = {pattern: /^\d+$/, error_message: 'You should enter a number!'}
-    age = IOHandler::get_input('Age:', ageValidationOptions)
+    name_validation_options = { pattern: /.+/, error_message: 'Minimum 1 character is needed!' }
+    name = IOHandler.get_input('Name:', name_validation_options)
+    age_validation_options = { pattern: /^\d+$/, error_message: 'You should enter a number!' }
+    age = IOHandler.get_input('Age:', age_validation_options)
 
     if chosen_option == '1'
       CreateStudent.create(name, age)
@@ -86,7 +86,7 @@ end
 
 class CreateStudent < Create
   def self.create(name, age)
-    permission_input = IOHandler::get_input('Has parent permission? (Y/n)').downcase
+    permission_input = IOHandler.get_input('Has parent permission? (Y/n)').downcase
     permission = permission_input != 'n'
 
     require './student'
@@ -96,8 +96,8 @@ end
 
 class CreateTeacher < Create
   def self.create(name, age)
-    validationOptions = {pattern: /.{3,}/, error_message: 'Minimum 3 characters needed!'}
-    specialization = IOHandler::get_input('Specialization:', validationOptions)
+    validation_options = { pattern: /.{3,}/, error_message: 'Minimum 3 characters needed!' }
+    specialization = IOHandler.get_input('Specialization:', validation_options)
 
     require './teacher'
     Teacher.new(specialization, age, name)
@@ -107,15 +107,15 @@ end
 class CreateRental < Create
   def self.create(persons, books)
     books.each.with_index { |b, i| puts "#{i}) \"#{b.title}\" by: \"#{b.author}\"" }
-    chosen_option = IOHandler::get_input('Choose a book:').to_i
+    chosen_option = IOHandler.get_input('Choose a book:').to_i
     chosen_book = books[chosen_option]
 
     persons.each.with_index { |p, i| puts "#{i}) [#{p.class}] Name: #{p.name}, id: #{p.id},  Age: #{p.age}" }
-    chosen_option = IOHandler::get_input('Choose a person:').to_i
+    chosen_option = IOHandler.get_input('Choose a person:').to_i
     chosen_person = persons[chosen_option]
 
-    validationOptions = {pattern: /^\d{4}-\d\d-\d\d/, error_message: 'Date format: YYYY-MM-DD'}
-    date = IOHandler::get_input('Pick a date:', validationOptions)
+    validation_options = { pattern: /^\d{4}-\d\d-\d\d/, error_message: 'Date format: YYYY-MM-DD' }
+    date = IOHandler.get_input('Pick a date:', validation_options)
 
     require './rental'
     Rental.new(date, chosen_person, chosen_book)

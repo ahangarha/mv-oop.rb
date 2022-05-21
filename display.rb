@@ -52,7 +52,7 @@ class ListRentalsByPersonId < Display
     puts 'List of persons:'
     @items.each { |p| puts "#{p.id} - #{p.name}" }
 
-    input_id = IOHandler::get_input('Enter the id of the person:')
+    input_id = IOHandler.get_input('Enter the id of the person:')
     person = @items.find { |p| p.id == input_id }
 
     # list the rentals

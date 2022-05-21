@@ -9,7 +9,7 @@ class Menu
     @options.each { |key, value| puts "#{key}) #{value}" }
 
     chosen_option = nil
-    validation_options = {pattern: /^\d$/, error_message: 'You should enter a number!'}
+    validation_options = { pattern: /^\d$/, error_message: 'You should enter a number!' }
     chosen_option = IOHandler.get_input(
       input_message, validation_options
     ) until !chosen_option.nil? && @options.key?(chosen_option.to_sym)
