@@ -9,8 +9,8 @@ end
 class CreateBook < Create
   def self.create()
     puts 'Please add details of the book'
-    title = IOHandler::get_input('Title:')
-    author = IOHandler::get_input('Author:')
+    title = IOHandler::get_input('Title:', {pattern:/.+/, error_message:'Please enter something.'})
+    author = IOHandler::get_input('Author:', {pattern:/.+/, error_message:'Please enter something.'})
 
     require './book'
     Book.new(title, author)
@@ -71,9 +71,10 @@ class CreatePerson < Create
     require './menu'
     person_menu = Menu.new(options)
     chosen_option = person_menu.choose_from
-
-    name = IOHandler::get_input('Name:')
-    age = IOHandler::get_input('Age:')
+    nameValidationOptions = {pattern: /.+/, error_message: 'Minimum 1 character is needed!'}
+    name = IOHandler::get_input('Name:', nameValidationOptions)
+    ageValidationOptions = {pattern: /^\d+$/, error_message: 'You should enter a number!'}
+    age = IOHandler::get_input('Age:', ageValidationOptions)
 
     if chosen_option == '1'
       CreateStudent.create(name, age)
@@ -95,7 +96,8 @@ end
 
 class CreateTeacher < Create
   def self.create(name, age)
-    specialization = IOHandler::get_input('Specialization:')
+    validationOptions = {pattern: /.{3,}/, error_message: 'Minimum 3 characters needed!'}
+    specialization = IOHandler::get_input('Specialization:', validationOptions)
 
     require './teacher'
     Teacher.new(specialization, age, name)
@@ -112,7 +114,8 @@ class CreateRental < Create
     chosen_option = IOHandler::get_input('Choose a person:').to_i
     chosen_person = persons[chosen_option]
 
-    date = IOHandler::get_input('Pick a date:')
+    validationOptions = {pattern: /^\d{4}-\d\d-\d\d/, error_message: 'Date format: YYYY-MM-DD'}
+    date = IOHandler::get_input('Pick a date:', validationOptions)
 
     require './rental'
     Rental.new(date, chosen_person, chosen_book)
