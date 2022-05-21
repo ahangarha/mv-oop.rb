@@ -1,3 +1,5 @@
+require './io_handler'
+
 class Menu
   def initialize(options = {})
     @options = options
@@ -7,13 +9,11 @@ class Menu
     @options.each { |key, value| puts "#{key}) #{value}" }
 
     chosen_option = nil
-    chosen_option = get_input(input_message) until !chosen_option.nil? && @options.key?(chosen_option.to_sym)
+    validation_options = { pattern: /^\d$/, error_message: 'You should enter a number!' }
+    chosen_option = IOHandler.get_input(
+      input_message, validation_options
+    ) until !chosen_option.nil? && @options.key?(chosen_option.to_sym)
 
     chosen_option
-  end
-
-  def get_input(msg)
-    print "#{msg} "
-    gets.chomp
   end
 end
