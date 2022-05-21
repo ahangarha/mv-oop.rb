@@ -32,7 +32,7 @@ class App
   end
 
   def create_person
-    @store[:persons] << CreatePerson.new.create
+    @store[:persons] << CreatePerson.create
     puts 'Saved.'
   end
 

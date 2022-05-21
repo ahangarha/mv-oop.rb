@@ -64,7 +64,7 @@ class CreatePersons < Create
 end
 
 class CreatePerson < Create
-  def create
+  def self.create
     puts 'What type of person to make?'
     options = {
       '1': 'Student',
