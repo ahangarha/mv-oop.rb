@@ -1,19 +1,16 @@
+require './io_handler'
+
 class Create
   def self.create(data = {})
     raise NotImplementedError
-  end
-
-  def self.get_input(msg)
-    print "#{msg} "
-    gets.chomp
   end
 end
 
 class CreateBook < Create
   def self.create()
     puts 'Please add details of the book'
-    title = Create.get_input('Title:')
-    author = Create.get_input('Author:')
+    title = IOHandler::get_input('Title:')
+    author = IOHandler::get_input('Author:')
 
     require './book'
     Book.new(title, author)
@@ -75,8 +72,8 @@ class CreatePerson < Create
     person_menu = Menu.new(options)
     chosen_option = person_menu.choose_from
 
-    name = Create.get_input('Name:')
-    age = Create.get_input('Age:')
+    name = IOHandler::get_input('Name:')
+    age = IOHandler::get_input('Age:')
 
     if chosen_option == '1'
       CreateStudent.create(name, age)
@@ -88,7 +85,7 @@ end
 
 class CreateStudent < Create
   def self.create(name, age)
-    permission_input = Create.get_input('Has parent permission? (Y/n)').downcase
+    permission_input = IOHandler::get_input('Has parent permission? (Y/n)').downcase
     permission = permission_input != 'n'
 
     require './student'
@@ -98,7 +95,7 @@ end
 
 class CreateTeacher < Create
   def self.create(name, age)
-    specialization = Create.get_input('Specialization:')
+    specialization = IOHandler::get_input('Specialization:')
 
     require './teacher'
     Teacher.new(specialization, age, name)
@@ -117,7 +114,7 @@ class CreateRental < Create
     chosen_option = gets.chomp.to_i
     chosen_person = persons[chosen_option]
 
-    date = Create.get_input('Pick a date:')
+    date = IOHandler::get_input('Pick a date:')
 
     require './rental'
     Rental.new(date, chosen_person, chosen_book)
