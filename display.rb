@@ -1,3 +1,5 @@
+require './io_handler'
+
 class Display
   def initialize(items)
     @items = items
@@ -50,9 +52,7 @@ class ListRentalsByPersonId < Display
     puts 'List of persons:'
     @items.each { |p| puts "#{p.id} - #{p.name}" }
 
-    print 'Enter the id of the person: '
-    input_id = gets.chomp
-
+    input_id = IOHandler::get_input('Enter the id of the person:')
     person = @items.find { |p| p.id == input_id }
 
     # list the rentals

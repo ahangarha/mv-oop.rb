@@ -104,14 +104,12 @@ end
 
 class CreateRental < Create
   def self.create(persons, books)
-    puts 'Choose a book:'
     books.each.with_index { |b, i| puts "#{i}) \"#{b.title}\" by: \"#{b.author}\"" }
-    chosen_option = gets.chomp.to_i
+    chosen_option = IOHandler::get_input('Choose a book:').to_i
     chosen_book = books[chosen_option]
 
-    puts 'Choose a person:'
     persons.each.with_index { |p, i| puts "#{i}) [#{p.class}] Name: #{p.name}, id: #{p.id},  Age: #{p.age}" }
-    chosen_option = gets.chomp.to_i
+    chosen_option = IOHandler::get_input('Choose a person:').to_i
     chosen_person = persons[chosen_option]
 
     date = IOHandler::get_input('Pick a date:')
