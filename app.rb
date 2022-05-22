@@ -11,13 +11,13 @@ class App
     }
 
     @methods = {
-      '1': 'list_all_books',
-      '2': 'list_all_people',
-      '3': 'create_person',
-      '4': 'create_book',
-      '5': 'create_a_rental',
-      '6': 'list_rental_by_person_id',
-      '7': 'quit'
+      '1' => 'list_all_books',
+      '2' => 'list_all_people',
+      '3' => 'create_person',
+      '4' => 'create_book',
+      '5' => 'create_a_rental',
+      '6' => 'list_rental_by_person_id',
+      '7' => 'quit'
     }
 
     load_all_data
@@ -71,13 +71,13 @@ class App
 
   def home
     options = {
-      '1': 'List all books',
-      '2': 'List all people',
-      '3': 'Create a person',
-      '4': 'Create a book',
-      '5': 'Create a rental',
-      '6': 'List all rentals for a given person id',
-      '7': 'Exit'
+      '1' => 'List all books',
+      '2' => 'List all people',
+      '3' => 'Create a person',
+      '4' => 'Create a book',
+      '5' => 'Create a rental',
+      '6' => 'List all rentals for a given person id',
+      '7' => 'Exit'
     }
     loop do
       puts "\nHere is the task list:"
@@ -85,9 +85,9 @@ class App
       home_menu = Menu.new(options)
       chosen_option = home_menu.choose_from
 
-      puts "Ok! You want to #{options[chosen_option.to_sym].downcase}.\n\n"
+      puts "Ok! You want to #{options[chosen_option].downcase}.\n\n"
 
-      send(@methods[chosen_option.to_sym].to_sym)
+      send(@methods[chosen_option])
     end
   end
 
