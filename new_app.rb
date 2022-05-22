@@ -1,38 +1,51 @@
-class App_Interface
-  def initialize(context)
-    @context = context
+require './menu'
+require 'pry'
+
+class App
+  attr_reader :title
+  attr_accessor :apps
+
+  def initialize(title, apps = [])
+    @title = title
+    @apps = apps
+    @state = {}
+  end
+
+  def generate_menu_options
+    options = {}
+    @apps.each.with_index { |app, index| options[index.to_s] = app.title }
+    options
   end
 
   def run
+    options = generate_menu_options
+    chosen_option = Menu.new(options).choose_from('Choose one option from the menu:')
+    @apps[chosen_option.to_i].run
+  end
+
+  def run_loop
     loop do
-      continue = get_input
-      break unless continue
+      run
     end
   end
+end
 
-  def get_input()
-    raise NotImplementedError
+class CountApp < App
+  def run
+    # super
+    5.times.with_index { |i| puts i }
   end
 end
 
-class Add_person_app < App_Interface
-end
-class Show_All_Books < App_Interface
-  def get_input()
-    # display all books
-    false
-  end
-
-class Home_App < App_Interface
-
-  def get_input
-    #show home menu
-    if user_input = 1
-      Show_All_Books.new().run
-
-  end
+class HomeApp < App
 end
 
-# in main.rb
-home_app = Home_App.new(contexts)
-home_app.run
+count_app = CountApp.new('Count from 0 to 5')
+
+
+# And this way we make an app with sub apps
+home_app = HomeApp.new('Home app', [
+  count_app
+])
+
+home_app.run_loop
