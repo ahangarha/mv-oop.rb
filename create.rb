@@ -64,8 +64,8 @@ class CreatePerson < Create
   def self.create
     puts 'What type of person to make?'
     options = {
-      '1': 'Student',
-      '2': 'Teacher'
+      '1' => 'Student',
+      '2' => 'Teacher'
     }
 
     require './menu'
